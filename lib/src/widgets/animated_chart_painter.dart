@@ -2102,7 +2102,7 @@ class AnimatedChartPainter extends CustomPainter {
     // Use pie-specific columns or fall back to regular columns
     final valueColumn = pieValueColumn ?? yColumn;
     final categoryColumn = pieCategoryColumn ?? colorColumn ?? xColumn;
-
+    
     if (valueColumn == null || categoryColumn == null || data.isEmpty) {
       return;
     }
@@ -2136,7 +2136,7 @@ class AnimatedChartPainter extends CustomPainter {
     double currentAngle = geometry.startAngle;
     // Cap sweep angle just below 2π to avoid Flutter's arcTo() issue
     // where a full circle (2π radians) fails to render
-    const maxSweepAngle = (2 * math.pi) - 0.0001;
+    static const double _maxPieArcSweepAngle = (2 * math.pi) - 0.0001;
     for (int i = 0; i < data.length; i++) {
       final value = values[i];
       if (value <= 0) continue;
