@@ -127,4 +127,66 @@ void main() {
     // Allow animations to complete
     await tester.pumpAndSettle();
   });
+
+  testWidgets(
+      'AnimatedCristalyseChartWidget handles single-segment pie chart correctly',
+      (WidgetTester tester) async {
+    // Single segment data - tests the 2π sweep angle edge case
+    final singleSegmentData = [
+      {'category': 'Total', 'value': 100},
+    ];
+
+    final widget = MaterialApp(
+      home: Scaffold(
+        body: AnimatedCristalyseChartWidget(
+          data: singleSegmentData,
+          pieCategoryColumn: 'category',
+          pieValueColumn: 'value',
+          geometries: [PieGeometry(showLabels: true, showPercentages: true)],
+          theme: ChartTheme.defaultTheme(),
+        ),
+      ),
+    );
+
+    await tester.pumpWidget(widget);
+    await tester.pump();
+
+    expect(find.byType(AnimatedCristalyseChartWidget), findsOneWidget);
+
+    await tester.pumpAndSettle();
+  });
+
+  testWidgets(
+      'AnimatedCristalyseChartWidget handles single-segment donut chart correctly',
+      (WidgetTester tester) async {
+    // Single segment donut - tests the 2π sweep angle edge case with inner radius
+    final singleSegmentData = [
+      {'category': 'Total', 'value': 100},
+    ];
+
+    final widget = MaterialApp(
+      home: Scaffold(
+        body: AnimatedCristalyseChartWidget(
+          data: singleSegmentData,
+          pieCategoryColumn: 'category',
+          pieValueColumn: 'value',
+          geometries: [
+            PieGeometry(
+              showLabels: true,
+              showPercentages: true,
+              innerRadius: 50.0, // Makes it a donut chart
+            ),
+          ],
+          theme: ChartTheme.defaultTheme(),
+        ),
+      ),
+    );
+
+    await tester.pumpWidget(widget);
+    await tester.pump();
+
+    expect(find.byType(AnimatedCristalyseChartWidget), findsOneWidget);
+
+    await tester.pumpAndSettle();
+  });
 }

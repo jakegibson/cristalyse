@@ -2159,7 +2159,11 @@ class AnimatedChartPainter extends CustomPainter {
         continue;
       }
 
-      final animatedSweepAngle = sweepAngle * sliceProgress;
+      // Cap sweep angle just below 2π to avoid Flutter's arcTo() issue
+      // where a full circle (2π radians) fails to render
+      const maxSweepAngle = (2 * math.pi) - 0.0001;
+      final animatedSweepAngle =
+          math.min(sweepAngle * sliceProgress, maxSweepAngle);
 
       // Calculate slice center for explosion effect
       Offset sliceCenter = center;
