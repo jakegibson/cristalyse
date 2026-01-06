@@ -2134,7 +2134,9 @@ class AnimatedChartPainter extends CustomPainter {
 
     // Draw pie slices
     double currentAngle = geometry.startAngle;
-
+    // Cap sweep angle just below 2π to avoid Flutter's arcTo() issue
+    // where a full circle (2π radians) fails to render
+    const maxSweepAngle = (2 * math.pi) - 0.0001;
     for (int i = 0; i < data.length; i++) {
       final value = values[i];
       if (value <= 0) continue;
@@ -2159,9 +2161,7 @@ class AnimatedChartPainter extends CustomPainter {
         continue;
       }
 
-      // Cap sweep angle just below 2π to avoid Flutter's arcTo() issue
-      // where a full circle (2π radians) fails to render
-      const maxSweepAngle = (2 * math.pi) - 0.0001;
+     
       final animatedSweepAngle =
           math.min(sweepAngle * sliceProgress, maxSweepAngle);
 
