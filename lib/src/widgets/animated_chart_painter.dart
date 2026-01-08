@@ -2163,7 +2163,7 @@ class AnimatedChartPainter extends CustomPainter {
 
      
       final animatedSweepAngle =
-          math.min(sweepAngle * sliceProgress, maxSweepAngle);
+          math.min(sweepAngle * sliceProgress, _maxPieArcSweepAngle);
 
       // Calculate slice center for explosion effect
       Offset sliceCenter = center;
